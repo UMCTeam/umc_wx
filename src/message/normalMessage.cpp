@@ -13,3 +13,14 @@ std::string NormalMessage::GetContent()
 {
     return  m_msg.content;
 }
+
+NormalMessage::HTTP_MESSAGE_TYPE NormalMessage::GetMessage()
+{
+
+    HTTP_MESSAGE_TYPE msg;
+
+    //设置消息请求的数据结构
+    msg.url = "普通消息地址";
+
+    return msg;
+}

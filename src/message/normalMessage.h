@@ -18,6 +18,9 @@ public:
     void SetContent(std::string) final;
 
     std::string GetContent() final;
+    HTTP_MESSAGE_TYPE GetMessage() final;
+
+private:
 
     NORMAL_MESSAGE m_msg;
 };

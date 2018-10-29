@@ -24,13 +24,19 @@ size_t write_data(void *ptr, size_t size, size_t nmemb, void *stream)
 
 template <class T>
 class Handler {
+
 public:
 
+    //登录处理
     bool Login()
     {
-        Get();
+        BaseMessage::HTTP_MESSAGE_TYPE msg;
+        msg.url = getQRLoginUuid();
+
+        std::cout << Get(msg) << std::endl;
     }
 
+    //发送消息
     void SendMessage(T& msg)
     {
         BaseMessage* ptr = (BaseMessage*)(&msg);
@@ -38,7 +44,7 @@ public:
     }
 
 private:
-    void Get()
+    std::string Get(const BaseMessage::HTTP_MESSAGE_TYPE& message)
     {
         CURL* easy_handle = curl_easy_init();
 
@@ -50,7 +56,7 @@ private:
 
         std::stringstream out;
 
-        std::cout<< getQRLoginUuid() <<std::endl;
+        //设置请求头部
         curl_easy_setopt(easy_handle, CURLOPT_URL, getQRLoginUuid().c_str());
         curl_easy_setopt(easy_handle, CURLOPT_WRITEFUNCTION, write_data);
         curl_easy_setopt(easy_handle, CURLOPT_WRITEDATA, &out);
@@ -62,10 +68,11 @@ private:
 
         //输出结果
         std::string str_json = out.str();
-        printf("%s",str_json.c_str());
 
         curl_easy_cleanup(easy_handle);
         curl_global_cleanup();
+
+        return  str_json;
     }
 };
 
